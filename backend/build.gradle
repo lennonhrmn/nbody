@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'io.quarkus'
+     id 'pmd'
 }
 
 repositories {
@@ -35,4 +36,10 @@ compileJava {
 
 compileTestJava {
     options.encoding = 'UTF-8'
+}
+
+pmd {
+    toolVersion = '6.39.0' 
+    ruleSets = ['java-basic', 'java-design'] 
+    ruleSetFiles = files('config/pmd/ruleset.xml') 
 }
