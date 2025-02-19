@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { fetchSimulationData } from "./api";
 
 function App() {
+  const [data, setData] = useState([]);
+
+  console.log("Data:", data);
+
+  useEffect(() => {
+    fetchSimulationData().then((res) => {
+      console.log("Data received:", res);
+      setData(res);
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>N-Body Simulation </h1>
+      <ul>
+        {data.map((item) => (
+          <li key={item.id}>
+            {item.name} - {item.mass}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
