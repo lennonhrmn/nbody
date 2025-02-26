@@ -1,9 +1,9 @@
 // App.js
 import React from "react";
-import SimulationDisplay from "./simulationDisplay";
+import NBodySimulation from "./components/NBodySimulation";
 
 function App() {
-  return <SimulationDisplay />;
+  return <NBodySimulation />;
 }
 
 export default App;
