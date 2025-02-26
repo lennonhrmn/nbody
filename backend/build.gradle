@@ -1,12 +1,13 @@
 plugins {
     id 'java'
     id 'io.quarkus' version '3.18.3'
+    id 'pmd'
 }
 
 ext {
     quarkusPlatformGroupId = 'io.quarkus'
     quarkusPlatformArtifactId = 'quarkus-bom'
-    quarkusPlatformVersion = '3.18.3' // Use the appropriate version
+    quarkusPlatformVersion = '3.18.3'
 }
 
 repositories {
@@ -56,4 +57,10 @@ compileJava {
 
 compileTestJava {
     options.encoding = 'UTF-8'
+}
+
+pmd {
+    toolVersion = '6.39.0' 
+    ruleSets = ['java-basic', 'java-design'] 
+    ruleSetFiles = files('config/pmd/ruleset.xml') 
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ruleset name="Mon Règleset PMD" xmlns="http://pmd.sourceforge.net/ruleset_2_0">
+    <description>Règles personnalisées pour mon projet.</description>
+    <rule ref="rulesets/java/basic.xml"/>
+    <rule ref="rulesets/java/design.xml"/>
+    <!-- Ajoutez d'autres règles ici -->
+</ruleset>
