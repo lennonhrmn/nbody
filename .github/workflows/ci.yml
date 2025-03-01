@@ -51,7 +51,7 @@ jobs:
         ./gradlew build
 
     - name: Lint Backend Code
-      run: ./gradlew checkstyleMain
+      run: ./gradlew pmdMain
   # integration-test: 
     
   #   runs-on: ubuntu-latest
