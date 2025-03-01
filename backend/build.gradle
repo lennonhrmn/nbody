@@ -36,7 +36,7 @@ compileJava {
 
 compileTestJava {
     options.encoding = 'UTF-8'
-}
+} 
 
 pmd {
     toolVersion = '6.39.0' 
