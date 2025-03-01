@@ -1,21 +1,42 @@
 plugins {
     id 'java'
-    id 'io.quarkus'
-     id 'pmd'
+    id 'io.quarkus' version '3.18.3'
+    id 'pmd'
+}
+
+ext {
+    quarkusPlatformGroupId = 'io.quarkus'
+    quarkusPlatformArtifactId = 'quarkus-bom'
+    quarkusPlatformVersion = '3.18.3'
 }
 
 repositories {
     mavenCentral()
     mavenLocal()
+    gradlePluginPortal()
 }
 
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+
+    implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1'
+    
+    // Core Quarkus dependencies
     implementation 'io.quarkus:quarkus-resteasy-jsonb'
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-resteasy'
+    
+    // Jackson for JSON processing
+    implementation 'io.quarkus:quarkus-jackson'
+    
+    // // RESTEasy Reactive for better performance
+    // implementation 'io.quarkus:quarkus-resteasy-reactive'
+    // implementation 'io.quarkus:quarkus-resteasy-reactive-jackson'
+    
+    // Testing
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'io.quarkus:quarkus-junit5-mockito'
 }
 
 group 'org.acme'
