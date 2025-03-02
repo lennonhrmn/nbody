@@ -14,7 +14,7 @@ const NBodySimulation = () => {
     mass: 1.0,
     position: [0, 0],
     velocity: [0, 0],
-    color: '#' + Math.floor(Math.random() * 16777215).toString(16),
+    color: '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'),
     radius: 10
   });
 
@@ -44,6 +44,39 @@ const NBodySimulation = () => {
     };
   }, [config]);
 
+  
+
+  const renderCanvas = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      console.error("Canvas not found!");
+      return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, width, height);
+
+    bodies.forEach(body => {
+      const x = centerX + body.position[0] * scale;
+      const y = centerY + body.position[1] * scale;
+
+      ctx.beginPath();
+      ctx.arc(x, y, Math.sqrt(body.mass) * body.radius, 0, 2 * Math.PI);
+      ctx.fillStyle = body.color;
+      ctx.fill();
+    });
+  }, [bodies, centerX, centerY, scale]);
+
+  const startRendering = useCallback(() => {
+    const render = async () => {
+      const updatedBodies = await fetchBodies();
+      setBodies(updatedBodies);
+      renderCanvas();
+      animationRef.current = requestAnimationFrame(render);
+    };
+    render();
+  }, [renderCanvas]); 
+
   useEffect(() => {
     if (isRunning) {
       startSimulation();
@@ -54,45 +87,8 @@ const NBodySimulation = () => {
         cancelAnimationFrame(animationRef.current);
       }
     }
-  }, [isRunning]);
-
-  const startRendering = useCallback(() => {
-    const render = async () => {
-      const updatedBodies = await fetchBodies();
-      setBodies(updatedBodies);
-      renderCanvas();
-      animationRef.current = requestAnimationFrame(render);
-    };
-    render();
-  }, []);
-
-  const renderCanvas = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-
-    // Clear canvas
-    ctx.clearRect(0, 0, width, height);
-
-    // Draw each body
-    bodies.forEach(body => {
-      const x = centerX + body.position[0] * scale;
-      const y = centerY + body.position[1] * scale;
-
-      ctx.beginPath();
-      ctx.arc(x, y, Math.sqrt(body.mass) * body.radius, 0, 2 * Math.PI);
-      ctx.fillStyle = body.color;
-      ctx.fill();
-
-      // Draw velocity vector
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(x + body.velocity[0] * 10, y + body.velocity[1] * 10);
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-      ctx.stroke();
-    });
-  };
+  }, [isRunning, startRendering]);
+  
 
   const handleConfigChange = (e) => {
     const { name, value } = e.target;
@@ -148,7 +144,7 @@ const NBodySimulation = () => {
       mass: 1.0,
       position: [0, 0],
       velocity: [0, 0],
-      color: '#' + Math.floor(Math.random() * 16777215).toString(16),
+      color: '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'),
       radius: 10
     });
   };
