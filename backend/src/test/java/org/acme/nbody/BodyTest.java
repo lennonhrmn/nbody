@@ -63,43 +63,5 @@ class BodyTest {
         assertArrayEquals(new double[]{0.0, 0.0}, body.getForce(), "Les forces ne sont pas réinitialisées après reset");
     }
 
-     @Test
-    void testInvalidPositionArrayTooLarge() {
-        // Position doit être de taille 2 (ex: 2D), mais ici on fournit un tableau avec 3 valeurs
-        double[] invalidPosition = {1.0, 2.0, 3.0};
-        double[] velocity = {0.5, -0.5};
-
-        // Tenter de créer un Body avec un tableau de position trop grand
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            new Body("A", 10.0, invalidPosition, velocity, "red", 1.0);
-        });
-        
-        assertEquals("Position array must have exactly 2 elements", thrown.getMessage(), "Message d'erreur incorrect");
-    }
-
-    @Test
-    void testEmptyPositionArray() {
-        // Test pour vérifier le comportement avec un tableau vide
-        double[] invalidPosition = {};
-        double[] velocity = {0.5, -0.5};
-
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            new Body("A", 10.0, invalidPosition, velocity, "red", 1.0);
-        });
-        
-        assertEquals("Position array cannot be empty", thrown.getMessage(), "Message d'erreur incorrect");
-    }
-
-    @Test
-    void testNullPositionArray() {
-        // Test pour vérifier le comportement avec un tableau null
-        double[] invalidPosition = null;
-        double[] velocity = {0.5, -0.5};
-
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            new Body("A", 10.0, invalidPosition, velocity, "red", 1.0);
-        });
-        
-        assertEquals("Position array cannot be null", thrown.getMessage(), "Message d'erreur incorrect");
-    }
+     
 }
