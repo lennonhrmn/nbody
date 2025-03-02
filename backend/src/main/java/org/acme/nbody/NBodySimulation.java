@@ -44,28 +44,28 @@ public class NBodySimulation {
     }
 
     private void calculateForce(Body body1, Body body2) {
-        double[] direction = new double[dimensions];
+        int minDimensions = Math.min(body1.getPosition().length, body2.getPosition().length);
+        int usedDimensions = Math.min(dimensions, minDimensions);
+
+        double[] direction = new double[usedDimensions];
         double distance = 0;
         
-        // Calculate distance vector
-        for (int i = 0; i < dimensions; i++) {
+        // Calcul du vecteur direction
+        for (int i = 0; i < usedDimensions; i++) {
             direction[i] = body2.getPosition()[i] - body1.getPosition()[i];
             distance += direction[i] * direction[i];
         }
         
-        // Prevent division by zero with a small epsilon
         distance = Math.sqrt(distance);
         double epsilon = 0.001;
         if (distance < epsilon) {
             distance = epsilon;
         }
         
-        // Calculate gravitational force magnitude
-        // F = G * m1 * m2 / r^2
         double forceMagnitude = gravitationalConstant * body1.getMass() * body2.getMass() / (distance * distance);
         
-        // Apply force components
-        for (int i = 0; i < dimensions; i++) {
+        // Appliquer la force
+        for (int i = 0; i < usedDimensions; i++) {
             double forceComponent = forceMagnitude * direction[i] / distance;
             body1.applyForce(i, forceComponent);
         }
