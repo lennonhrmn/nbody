@@ -60,7 +60,7 @@ public class SimulationResource {
                 while (isRunning) {
                     simulation.update();
                     try {
-                        Thread.sleep(16); // ~60 FPS
+                        Thread.sleep(33); // ~60 FPS
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         break;
