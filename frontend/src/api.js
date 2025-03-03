@@ -10,7 +10,6 @@ export const configureSimulation = async (config) => {
         throw error;
     }
 };
-
 export const startSimulation = async () => {
     try {
         await axios.post(`${API_BASE_URL}/start`);
