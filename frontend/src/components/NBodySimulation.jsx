@@ -68,14 +68,24 @@ const NBodySimulation = () => {
   }, [bodies, centerX, centerY, scale]);
 
   const startRendering = useCallback(() => {
+    let lastCall = Date.now();
     const render = async () => {
-      const updatedBodies = await fetchBodies();
-      setBodies(updatedBodies);
+      const now = Date.now();
+      if (now - lastCall > 66) { // Une requête toutes les 66 ms
+        try {
+          const updatedBodies = await fetchBodies();
+          setBodies(updatedBodies);
+        } catch (error) {
+          console.error('Erreur lors du fetch:', error);
+        }
+        lastCall = now;
+      }
       renderCanvas();
       animationRef.current = requestAnimationFrame(render);
     };
     render();
-  }, [renderCanvas]); 
+  }, [renderCanvas]);
+
 
   useEffect(() => {
     if (isRunning) {

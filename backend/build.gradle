@@ -1,7 +1,8 @@
 plugins {
     id 'java'
     id 'io.quarkus' version '3.18.3'
-    id 'pmd'
+     id 'pmd'
+     id 'jacoco'
 }
 
 ext {
@@ -63,4 +64,16 @@ pmd {
     toolVersion = '6.39.0' 
     ruleSets = ['java-basic', 'java-design'] 
     ruleSetFiles = files('config/pmd/ruleset.xml') 
+}
+jacoco {
+    toolVersion = "0.8.12"
+    reportsDirectory = layout.buildDirectory.dir("reports/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
 }
